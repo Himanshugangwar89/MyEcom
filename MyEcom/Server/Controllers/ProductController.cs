@@ -7,17 +7,25 @@ namespace MyEcom.Server.Controllers
 	[ApiController]
 	public class ProductController : ControllerBase
 	{
-		private readonly DataContext _context;
+		private readonly IProductService _productService;
 
-		public ProductController(DataContext context)
-        {
-			_context = context;
-		}
-        [HttpGet]
-		public async Task<ActionResult<List<Product>>>GetProduct()
+		public ProductController(IProductService productService)
 		{
-			var products = await _context.Products.ToListAsync();
-			return Ok(products);
+			_productService = productService;
 		}
-	}
+		[HttpGet]
+		public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
+		{
+			var result = await _productService.GetProductsAsync();
+			return Ok(result);
+		}
+		[HttpGet("{productId}")]
+		public async Task<ActionResult<ServiceResponse<Product>>> GetProducts(int productId)
+        {
+            var result = await _productService.GetProductAsync(productId);
+            return Ok(result);
+        }
+
+
+    }
 }

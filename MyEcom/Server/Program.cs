@@ -1,7 +1,9 @@
 global using MyEcom.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using MyEcom.Server.Data;
+global using MyEcom.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 app.UseSwaggerUI();
